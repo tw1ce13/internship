@@ -14,13 +14,16 @@ namespace ProjectJunior.Models
 
         [Required]
         public int OrdId { get; set; }
+        [ForeignKey("OrdId")]
         public Ord? Ord { get; set; }
         [Required]
         public int DrugId { get; set; }
+        [ForeignKey("DrugId")]
         public Drug? Drug { get; set; }
         [Required]
         public int DiscountId { get; set; }
+        [ForeignKey("DiscountId")]
         public Discount? Discount { get; set; }
-	}
+    }
 }
 

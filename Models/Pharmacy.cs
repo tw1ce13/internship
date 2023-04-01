@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace ProjectJunior.Models
 {
 	public class Pharmacy
@@ -12,7 +13,8 @@ namespace ProjectJunior.Models
 
         [Required]
         public int WebId { get; set; }
+        [ForeignKey("WebId")]
         public Web? Web { get; set; }
-	}
+    }
 }
 

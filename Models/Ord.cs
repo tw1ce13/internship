@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectJunior.Models
 {
@@ -11,16 +12,20 @@ namespace ProjectJunior.Models
 
 		[Required]
 		public int PharmacyId { get; set; }
-		public Pharmacy? Pharmacy { get; set; }
+        [ForeignKey("PharmacyId")]
+        public Pharmacy? Pharmacy { get; set; }
         [Required]
         public int EmployeeId { get; set; }
-		public Employee? Employee { get; set; }
+        [ForeignKey("EmployeeId")]
+        public Employee? Employee { get; set; }
         [Required]
         public int PatientId { get; set; }
-		public Patient? Patient { get; set; }
+        [ForeignKey("PatientId")]
+        public Patient? Patient { get; set; }
         [Required]
         public int DiscountId { get; set; }
-		public Discount? Discount { get; set; }
-	}
+        [ForeignKey("DiscountId")]
+        public Discount? Discount { get; set; }
+    }
 }
 

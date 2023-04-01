@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectJunior.Models
 {
@@ -15,6 +16,7 @@ namespace ProjectJunior.Models
 
 		[Required]
 		public int PharmacyId { get; set; }
+		[ForeignKey("PharmacyId")]
 		public Pharmacy? Pharmacy { get; set; }
 	}
 }
