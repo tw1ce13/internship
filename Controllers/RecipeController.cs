@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectJunior.Data;
 using ProjectJunior.Models;
 using Microsoft.EntityFrameworkCore;
-
+using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Services.Response;
 
 namespace ProjectJunior.Controllers
 {
@@ -14,80 +15,38 @@ namespace ProjectJunior.Controllers
     [ApiController]
     public class RecipeController : Controller
     {
-        private readonly ProjectContext context;
+        private readonly IRecipeService _recipeService;
 
-        public RecipeController(ProjectContext context)
+        public RecipeController(IRecipeService recipeService)
         {
-            this.context = context;
+            _recipeService = recipeService;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Recipe>>> Get()
+        public async Task<IEnumerable<Recipe>> GetAll()
         {
-            if (context.Recipes == null)
-                return NotFound();
-            return await context.Recipes.ToListAsync();
+            var obj = await _recipeService.GetAll();
+            return obj.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Recipe>> Get(int id)
+        public async Task<Recipe> Get(int id)
         {
-            if (context.Recipes == null)
-                return NotFound();
-
-            var obj = await context.Recipes.FindAsync(id);
-            if (obj == null)
-                return NotFound();
-            return obj;
+            var obj = await _recipeService.Get(id);
+            return obj.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Recipe>> Post(Recipe obj)
+        public IBaseResponse<Recipe> Post(Recipe obj)
         {
-            context.Recipes.Add(obj);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
+            return _recipeService.Add(obj);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Recipe obj)
-        {
-            if (id != obj.Id)
-                return BadRequest();
-            context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public IBaseResponse<Recipe> Delete(int id)
         {
-            if (context.Recipes == null)
-                return NotFound();
-            var obj = await context.Recipes.FindAsync(id);
-
-            if (obj == null)
-                return NotFound();
-            context.Recipes.Remove(obj);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _recipeService.Delete(id);
         }
     }
 }

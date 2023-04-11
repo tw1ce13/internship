@@ -11,15 +11,15 @@ namespace ProjectJunior.Data
 
         }
 
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OrdDrug>().HasIndex(p => new { p.DiscountId, p.OrdId, p.DrugId }).IsUnique(true);
-            modelBuilder.Entity<RecipeDrug>().HasIndex(p => new { p.RecipeId, p.DrugId }).IsUnique(true);
-            modelBuilder.Entity<Availability>().HasIndex(p => new { p.DeliveryId, p.PharmacyId, p.DrugId }).IsUnique(true);
+            modelBuilder.Entity<OrdDrug>().HasKey(p => new { p.DiscountId, p.OrdId, p.DrugId });
+            modelBuilder.Entity<RecipeDrug>().HasKey(p => new { p.RecipeId, p.DrugId });
+            modelBuilder.Entity<Availability>().HasKey(p => new { p.DeliveryId, p.PharmacyId, p.DrugId });
         }
 
-        public DbSet<Web> Webs { get; set; } = null!;
+        public DbSet<Web> Webs { get; set; }
         public DbSet<Availability> Availabilities { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
@@ -34,4 +34,3 @@ namespace ProjectJunior.Data
         public DbSet<Pharmacy> Pharmacies { get; set; }
     }
 }
-

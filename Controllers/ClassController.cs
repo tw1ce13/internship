@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectJunior.Data;
 using ProjectJunior.Models;
 using Microsoft.EntityFrameworkCore;
+using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Services.Response;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,80 +17,38 @@ namespace ProjectJunior.Controllers
     [ApiController]
     public class ClassController : Controller
     {
-        private readonly ProjectContext context;
+        private readonly IClassService _classService;
 
-        public ClassController(ProjectContext context)
+        public ClassController(IClassService classService)
         {
-            this.context = context;
+            _classService = classService;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Class>>> Get()
+        public async Task<IEnumerable<Class>> GetAll()
         {
-            if (context.Classes == null)
-                return NotFound();
-            return await context.Classes.ToListAsync();
+            var obj = await _classService.GetAll();
+            return obj.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Class>> Get(int id)
+        public async Task<Class> Get(int id)
         {
-            if (context.Classes == null)
-                return NotFound();
-
-            var obj = await context.Classes.FindAsync(id);
-            if (obj == null)
-                return NotFound();
-            return obj;
+            var obj = await _classService.Get(id);
+            return obj.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Class>> Post(Class obj)
+        public IBaseResponse<Class> Post(Class obj)
         {
-            context.Classes.Add(obj);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
+            return _classService.Add(obj);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Class obj)
-        {
-            if (id != obj.Id)
-                return BadRequest();
-            context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public IBaseResponse<Class> Delete(int id)
         {
-            if (context.Classes == null)
-                return NotFound();
-            var obj = await context.Classes.FindAsync(id);
-
-            if (obj == null)
-                return NotFound();
-            context.Classes.Remove(obj);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _classService.Delete(id);
         }
     }
 }

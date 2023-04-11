@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectJunior.Data;
 using ProjectJunior.Models;
 using Microsoft.EntityFrameworkCore;
-
+using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Services.Response;
 
 namespace ProjectJunior.Controllers
 {
@@ -14,80 +15,38 @@ namespace ProjectJunior.Controllers
     [ApiController]
     public class OrdController : Controller
     {
-        private readonly ProjectContext context;
+        private readonly IOrdService _ordService;
 
-        public OrdController(ProjectContext context)
+        public OrdController(IOrdService ordService)
         {
-            this.context = context;
+            _ordService = ordService;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ord>>> Get()
+        public async Task<IEnumerable<Ord>> GetAll()
         {
-            if (context.Ords == null)
-                return NotFound();
-            return await context.Ords.ToListAsync();
+            var obj = await _ordService.GetAll();
+            return obj.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Ord>> Get(int id)
+        public async Task<Ord> Get(int id)
         {
-            if (context.Ords == null)
-                return NotFound();
-
-            var obj = await context.Ords.FindAsync(id);
-            if (obj == null)
-                return NotFound();
-            return obj;
+            var obj = await _ordService.Get(id);
+            return obj.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Ord>> Post(Ord obj)
+        public IBaseResponse<Ord> Post(Ord obj)
         {
-            context.Ords.Add(obj);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
+            return _ordService.Add(obj);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Ord obj)
-        {
-            if (id != obj.Id)
-                return BadRequest();
-            context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public IBaseResponse<Ord> Delete(int id)
         {
-            if (context.Ords == null)
-                return NotFound();
-            var obj = await context.Ords.FindAsync(id);
-
-            if (obj == null)
-                return NotFound();
-            context.Ords.Remove(obj);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _ordService.Delete(id);
         }
     }
 }

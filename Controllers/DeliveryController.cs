@@ -8,8 +8,8 @@ using ProjectJunior.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.Data.Entity;
-
-
+using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Services.Response;
 
 namespace ProjectJunior.Controllers
 {
@@ -18,83 +18,38 @@ namespace ProjectJunior.Controllers
     public class DeliveryController : Controller
     {
 
-        private readonly ProjectContext context;
+        private readonly IDeliveryService _deliveryService;
 
-        public DeliveryController(ProjectContext context)
+        public DeliveryController(IDeliveryService deliveryService)
         {
-            this.context = context;
+            _deliveryService = deliveryService;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Delivery>>> Get()
+        public async Task<IEnumerable<Delivery>> GetAll()
         {
-            if (context.Deliveries == null)
-                return NotFound();
-
-            return await context.Deliveries.ToListAsync();
+            var obj = await _deliveryService.GetAll();
+            return obj.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Delivery>> Get(int id)
+        public async Task<Delivery> Get(int id)
         {
-            if (context.Deliveries == null)
-                return NotFound();
-
-            var delivery = await context.Deliveries.FindAsync(id);
-
-            if (delivery == null)
-                return NotFound();
-
-            return delivery;
+            var obj = await _deliveryService.Get(id);
+            return obj.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Delivery>> Post(Delivery delivery)
+        public IBaseResponse<Delivery> Post(Delivery obj)
         {
-            context.Deliveries.Add(delivery);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction("Get", new { id = delivery.Id }, delivery);
+            return _deliveryService.Add(obj);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Delivery delivery)
-        {
-            if (id != delivery.Id)
-                return BadRequest();
-
-            context.Entry(delivery).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public IBaseResponse<Delivery> Delete(int id)
         {
-            if (context.Deliveries == null)
-                return NotFound();
-            var delivery = await context.Deliveries.FindAsync(id);
-
-            if (delivery == null)
-                return NotFound();
-            context.Deliveries.Remove(delivery);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _deliveryService.Delete(id);
         }
     }
 }

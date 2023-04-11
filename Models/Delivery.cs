@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectJunior.Models
 {
-	public class Delivery
+	public class Delivery 
 	{
 		public int Id { get; set; }
 		public DateTime CreateData { get; set; }

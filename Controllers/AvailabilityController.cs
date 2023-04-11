@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectJunior.Data;
 using ProjectJunior.Models;
 using Microsoft.EntityFrameworkCore;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Services.Response;
 
 namespace ProjectJunior.Controllers
 {
@@ -15,80 +15,38 @@ namespace ProjectJunior.Controllers
     [ApiController]
     public class AvailabilityController : Controller
     {
-        private readonly ProjectContext context;
+        private readonly IAvailabilityService _availabilityService;
 
-        public AvailabilityController(ProjectContext context)
+        public AvailabilityController(IAvailabilityService availabilityService)
         {
-            this.context = context;
+            _availabilityService = availabilityService;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Availability>>> Get()
+        public async Task<IEnumerable<Availability>> GetAll()
         {
-            if (context.Availabilities == null)
-                return NotFound();
-            return await context.Availabilities.ToListAsync();
+            var availabilities = await _availabilityService.GetAll();
+            return availabilities.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Availability>> Get(int id)
+        public async Task<Availability> Get(int id)
         {
-            if (context.Availabilities == null)
-                return NotFound();
-
-            var obj = await context.Availabilities.FindAsync(id);
-            if (obj == null)
-                return NotFound();
-            return obj;
+            var availability = await _availabilityService.Get(id);
+            return availability.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Availability>> Post(Availability obj)
+        public IBaseResponse<Availability> Post(Availability availability)
         {
-            context.Availabilities.Add(obj);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
+            return _availabilityService.Add(availability);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Availability obj)
-        {
-            if (id != obj.Id)
-                return BadRequest();
-            context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public IBaseResponse<Availability> Delete(int id)
         {
-            if (context.Availabilities == null)
-                return NotFound();
-            var obj = await context.Availabilities.FindAsync(id);
-
-            if (obj == null)
-                return NotFound();
-            context.Availabilities.Remove(obj);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _availabilityService.Delete(id);
         }
     }
 }

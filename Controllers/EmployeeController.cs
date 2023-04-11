@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectJunior.Data;
 using ProjectJunior.Models;
 using Microsoft.EntityFrameworkCore;
-
+using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Services.Response;
 
 namespace ProjectJunior.Controllers
 {
@@ -14,80 +15,38 @@ namespace ProjectJunior.Controllers
     [ApiController]
     public class EmployeeController : Controller
     {
-        private readonly ProjectContext context;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(ProjectContext context)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            this.context = context;
+            _employeeService = employeeService;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> Get()
+        public async Task<IEnumerable<Employee>> GetAll()
         {
-            if (context.Employees == null)
-                return NotFound();
-            return await context.Employees.ToListAsync();
+            var obj = await _employeeService.GetAll();
+            return obj.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> Get(int id)
+        public async Task<Employee> Get(int id)
         {
-            if (context.Employees == null)
-                return NotFound();
-
-            var obj = await context.Employees.FindAsync(id);
-            if (obj == null)
-                return NotFound();
-            return obj;
+            var obj = await _employeeService.Get(id);
+            return obj.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Employee>> Post(Employee obj)
+        public IBaseResponse<Employee> Post(Employee obj)
         {
-            context.Employees.Add(obj);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
+            return _employeeService.Add(obj);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Employee obj)
-        {
-            if (id != obj.Id)
-                return BadRequest();
-            context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public IBaseResponse<Employee> Delete(int id)
         {
-            if (context.Employees == null)
-                return NotFound();
-            var obj = await context.Employees.FindAsync(id);
-
-            if (obj == null)
-                return NotFound();
-            context.Employees.Remove(obj);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _employeeService.Delete(id);
         }
     }
 }

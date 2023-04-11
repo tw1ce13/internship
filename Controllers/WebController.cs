@@ -8,6 +8,8 @@ using ProjectJunior.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.Data.Entity;
+using ProjectJunior.Services.Interfaces;
+using ProjectJunior.Services.Response;
 
 namespace ProjectJunior.Controllers
 {
@@ -15,80 +17,39 @@ namespace ProjectJunior.Controllers
     [ApiController]
     public class WebController : Controller
     {
-        private readonly ProjectContext context;
+        private readonly IWebService _webService;
 
-        public WebController (ProjectContext context)
+        public WebController(IWebService webService)
         {
-            this.context = context;
+            _webService = webService;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Web>>> GetWeb()
+        public async Task<IEnumerable<Web>> GetAll()
         {
-            if (context.Webs == null)
-                return NotFound();
-            return await context.Webs.ToListAsync();
+            var webs = await _webService.GetAll();
+            return webs.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Web>> Get(int id)
+        public async Task<Web> GetWeb(int id)
         {
-            if (context.Webs == null)
-                return NotFound();
-
-            var web = await context.Webs.FindAsync(id);
-
-            if (web == null)
-                return NotFound();
-
-            return web;
+            var web = await _webService.Get(id);
+            return web.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Web>> PostWeb(Web web)
+        public IBaseResponse<Web> Post(Web web)
         {
-            context.Webs.Add(web);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetWeb), new { id = web.Id }, web);
+            return _webService.Add(web);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutWeb(int id, Web web)
-        {
-            context.Entry(web).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IBaseResponse<Web> Delete(int id)
         {
-            if (context.Webs == null)
-                return NotFound();
-            var web = await context.Webs.FindAsync(id);
-            if (web == null)
-                return NotFound();
-
-            context.Webs.Remove(web);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _webService.Delete(id);
         }
-    }
+    }    
 }
 

@@ -8,8 +8,9 @@ using ProjectJunior.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.Data.Entity;
-
-
+using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.Implementations;
+using ProjectJunior.Services.Response;
 
 namespace ProjectJunior.Controllers
 {
@@ -18,82 +19,38 @@ namespace ProjectJunior.Controllers
     public class PharmacyController : Controller
     {
 
-        private readonly ProjectContext context;
+        private readonly IPharmacyService _pharmacyService;
 
-        public PharmacyController(ProjectContext context)
+        public PharmacyController(PharmacyService pharmacyService)
         {
-            this.context = context;
+            _pharmacyService = pharmacyService;
         }
+
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pharmacy>>> GetPharmacy()
+        public async Task<IEnumerable<Pharmacy>> GetAll()
         {
-            if (context.Pharmacies == null)
-                return NotFound();
-
-            return await context.Pharmacies.ToListAsync();
+            var obj = await _pharmacyService.GetAll();
+            return obj.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Pharmacy>> Get(int id)
+        public async Task<Pharmacy> Get(int id)
         {
-            if (context.Pharmacies == null)
-                return NotFound();
-
-            var pharmacy = await context.Pharmacies.FindAsync(id);
-
-            if (pharmacy == null)
-                return NotFound();
-
-            return pharmacy;
+            var obj = await _pharmacyService.Get(id);
+            return obj.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Pharmacy>> PostPharmacy (Pharmacy pharmacy)
+        public IBaseResponse<Pharmacy> Post(Pharmacy obj)
         {
-            context.Pharmacies.Add(pharmacy);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPharmacy", new { id = pharmacy.Id }, pharmacy);
+            return _pharmacyService.Add(obj);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Pharmacy pharmacy)
-        {
-            if (id != pharmacy.Id)
-                return BadRequest();
-
-            context.Entry(pharmacy).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public IBaseResponse<Pharmacy> Delete(int id)
         {
-            if (context.Pharmacies == null)
-                return NotFound();
-            var pharmacy = await context.Pharmacies.FindAsync(id);
-
-            if (pharmacy == null)
-                return NotFound();
-            context.Pharmacies.Remove(pharmacy);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _pharmacyService.Delete(id);
         }
     }
 }

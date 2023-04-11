@@ -4,7 +4,7 @@ namespace ProjectJunior.Models
 {
 	public class Class
 	{
-		public int Id { get; set; }
+		public int ClassId { get; set; }
 		[Required]
 		public string? Name { get; set; }
 	}

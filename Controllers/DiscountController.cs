@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectJunior.Data;
 using ProjectJunior.Models;
 using Microsoft.EntityFrameworkCore;
+using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Services.Response;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,80 +17,38 @@ namespace ProjectJunior.Controllers
     [ApiController]
     public class DiscountController : Controller
     {
-        private readonly ProjectContext context;
+        private readonly IDiscountService _discountService;
 
-        public DiscountController(ProjectContext context)
+        public DiscountController(IDiscountService discountService)
         {
-            this.context = context;
+            _discountService = discountService;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Discount>>> Get()
+        public async Task<IEnumerable<Discount>> GetAll()
         {
-            if (context.Discounts == null)
-                return NotFound();
-            return await context.Discounts.ToListAsync();
+            var obj = await _discountService.GetAll();
+            return obj.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Discount>> Get(int id)
+        public async Task<Discount> Get(int id)
         {
-            if (context.Discounts == null)
-                return NotFound();
-
-            var obj = await context.Discounts.FindAsync(id);
-            if (obj == null)
-                return NotFound();
-            return obj;
+            var obj = await _discountService.Get(id);
+            return obj.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Discount>> Post(Discount obj)
+        public IBaseResponse<Discount> Post(Discount obj)
         {
-            context.Discounts.Add(obj);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
+            return _discountService.Add(obj);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Discount obj)
-        {
-            if (id != obj.Id)
-                return BadRequest();
-            context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public IBaseResponse<Discount> Delete(int id)
         {
-            if (context.Discounts == null)
-                return NotFound();
-            var obj = await context.Discounts.FindAsync(id);
-
-            if (obj == null)
-                return NotFound();
-            context.Discounts.Remove(obj);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _discountService.Delete(id);
         }
     }
 }

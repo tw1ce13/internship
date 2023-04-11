@@ -7,8 +7,8 @@ namespace ProjectJunior.Models
 	public class Ord
 	{
 		public int Id { get; set; }
-		[Required]
-		public DateTime Date { get; set; }
+        [Required]
+        public DateTime Date { get; set; }
 
 		[Required]
 		public int PharmacyId { get; set; }

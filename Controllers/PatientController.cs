@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectJunior.Data;
 using ProjectJunior.Models;
 using Microsoft.EntityFrameworkCore;
-
+using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Services.Response;
 
 namespace ProjectJunior.Controllers
 {
@@ -14,80 +15,38 @@ namespace ProjectJunior.Controllers
     [ApiController]
     public class PatientController : Controller
     {
-        private readonly ProjectContext context;
+        private readonly IPatientService _patientService;
 
-        public PatientController(ProjectContext context)
+        public PatientController(IPatientService patientService)
         {
-            this.context = context;
+            _patientService = patientService;
         }
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patient>>> Get()
+        public async Task<IEnumerable<Patient>> GetAll()
         {
-            if (context.Patients == null)
-                return NotFound();
-            return await context.Patients.ToListAsync();
+            var obj = await _patientService.GetAll();
+            return obj.Data;
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patient>> Get(int id)
+        public async Task<Patient> Get(int id)
         {
-            if (context.Patients == null)
-                return NotFound();
-
-            var obj = await context.Patients.FindAsync(id);
-            if (obj == null)
-                return NotFound();
-            return obj;
+            var obj = await _patientService.Get(id);
+            return obj.Data;
         }
-
 
         [HttpPost]
-        public async Task<ActionResult<Patient>> Post(Patient obj)
+        public IBaseResponse<Patient> Post(Patient obj)
         {
-            context.Patients.Add(obj);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
+            return _patientService.Add(obj);
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Patient obj)
-        {
-            if (id != obj.Id)
-                return BadRequest();
-            context.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-
-        }
-
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public IBaseResponse<Patient> Delete(int id)
         {
-            if (context.Patients == null)
-                return NotFound();
-            var obj = await context.Patients.FindAsync(id);
-
-            if (obj == null)
-                return NotFound();
-            context.Patients.Remove(obj);
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return _patientService.Delete(id);
         }
     }
 }
