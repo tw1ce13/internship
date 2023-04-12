@@ -12,16 +12,16 @@ namespace ProjectJunior.Models
 
 		[Required]
 		public int PharmacyId { get; set; }
-        [ForeignKey("PharmacyId")]
+        	[ForeignKey("PharmacyId")]
 		public Pharmacy? Pharmacy { get; set; }
-        [Required]
+        	[Required]
 		public int DrugId { get; set; }
-        [ForeignKey("DrugId")]
+        	[ForeignKey("DrugId")]
 		public Drug? Drug { get; set; }
-        [Required]
+        	[Required]
 		public int DeliveryId { get; set; }
-        [ForeignKey("DeliveryId")]
+        	[ForeignKey("DeliveryId")]
 		public Delivery? Delivery { get; set; }
-    }
+    	}
 }
 
