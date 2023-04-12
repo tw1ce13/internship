@@ -6,12 +6,12 @@ namespace ProjectJunior.Models
 {
 	public class Ord
 	{
-		public int Id { get; set; }
+	public int Id { get; set; }
         [Required]
         public DateTime Date { get; set; }
 
-		[Required]
-		public int PharmacyId { get; set; }
+	[Required]
+	public int PharmacyId { get; set; }
         [ForeignKey("PharmacyId")]
         public Pharmacy? Pharmacy { get; set; }
         [Required]
