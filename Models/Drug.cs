@@ -15,7 +15,7 @@ namespace ProjectJunior.Models
 
 		[Required]
 		public int ClassId { get; set; }
-        [ForeignKey("ClassId")]
+        	[ForeignKey("ClassId")]
 		public Class? Class { get; set; }
 	}
 }
