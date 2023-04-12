@@ -50,6 +50,12 @@ namespace ProjectJunior.Controllers
         {
             return _webService.Delete(id);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IBaseResponse<Web>> Update(int id, Web obj)
+        {
+            return await _webService.Update(id, obj);
+        }
     }    
 }
 

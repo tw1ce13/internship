@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 
 namespace ProjectJunior.Data.Repositories
 {
-	public class WebRepository : IGeneralRepository<Web>
-	{
+	public class WebRepository : IWebRepository
+    {
         private readonly ProjectContext _context;
 		public WebRepository(ProjectContext context)
 		{
@@ -64,6 +65,15 @@ namespace ProjectJunior.Data.Repositories
         public async Task<IEnumerable<Web>> GetAll()
         {
             return await _context.Webs.ToListAsync();
+        }
+
+
+        public async Task<Web> Update(Web data)
+        {
+            _context.Webs.Update(data);
+            await _context.SaveChangesAsync();
+
+            return data;
         }
     }
 }

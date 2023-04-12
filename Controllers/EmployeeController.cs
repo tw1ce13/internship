@@ -8,6 +8,7 @@ using ProjectJunior.Models;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Data.Interfaces;
 using ProjectJunior.Services.Response;
+using ProjectJunior.Data.Implementations;
 
 namespace ProjectJunior.Controllers
 {
@@ -47,6 +48,12 @@ namespace ProjectJunior.Controllers
         public IBaseResponse<Employee> Delete(int id)
         {
             return _employeeService.Delete(id);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IBaseResponse<Employee>> Update(int id, Employee obj)
+        {
+            return await _employeeService.Update(id, obj);
         }
     }
 }

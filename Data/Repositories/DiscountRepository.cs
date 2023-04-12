@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 
 namespace ProjectJunior.Data.Repositories
 {
-        public class DiscountRepository : IGeneralRepository<Discount>
+        public class DiscountRepository : IDiscountRepository
     {
         private readonly ProjectContext _context;
         public DiscountRepository(ProjectContext context)
@@ -65,6 +66,14 @@ namespace ProjectJunior.Data.Repositories
         public async Task<IEnumerable<Discount>> GetAll()
         {
             return await _context.Discounts.ToListAsync();
+        }
+
+        public async Task<Discount> Update(Discount data)
+        {
+            _context.Discounts.Update(data);
+            await _context.SaveChangesAsync();
+
+            return data;
         }
     }
 }

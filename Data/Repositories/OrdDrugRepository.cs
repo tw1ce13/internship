@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 
 namespace ProjectJunior.Data.Repositories
 {
-	public class OrdDrugRepository : IGeneralRepository<OrdDrug>
+	public class OrdDrugRepository : IOrdDrugRepository
 	{
         private readonly ProjectContext _context;
         public OrdDrugRepository(ProjectContext context)
@@ -64,6 +65,14 @@ namespace ProjectJunior.Data.Repositories
         public async Task<IEnumerable<OrdDrug>> GetAll()
         {
             return await _context.OrdsDrugs.ToListAsync();
+        }
+
+        public async Task<OrdDrug> Update(OrdDrug data)
+        {
+            _context.OrdsDrugs.Update(data);
+            await _context.SaveChangesAsync();
+
+            return data;
         }
     }
 }

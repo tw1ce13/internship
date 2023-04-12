@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 
 namespace ProjectJunior.Data.Repositories
 {
-	public class DeliveryRepository : IGeneralRepository<Delivery>
-	{
+	public class DeliveryRepository : IDeliveryRepository
+    {
         private readonly ProjectContext _context;
         public DeliveryRepository(ProjectContext context)
         {
@@ -64,6 +65,14 @@ namespace ProjectJunior.Data.Repositories
         public async Task<IEnumerable<Delivery>> GetAll()
         {
             return await _context.Deliveries.ToListAsync();
+        }
+
+        public async Task<Delivery> Update(Delivery data)
+        {
+            _context.Deliveries.Update(data);
+            await _context.SaveChangesAsync();
+
+            return data;
         }
     }
 }

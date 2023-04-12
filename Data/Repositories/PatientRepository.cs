@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 
 namespace ProjectJunior.Data.Repositories
 {
-	public class PatientRepository : IGeneralRepository<Patient>
-	{
+	public class PatientRepository : IPatientRepository
+    {
         private readonly ProjectContext _context;
         public PatientRepository(ProjectContext context)
         {
@@ -64,6 +65,19 @@ namespace ProjectJunior.Data.Repositories
         public async Task<IEnumerable<Patient>> GetAll()
         {
             return await _context.Patients.ToListAsync();
+        }
+
+        public Task<Patient> Update(int id, Patient data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Patient> Update(Patient data)
+        {
+            _context.Patients.Update(data);
+            await _context.SaveChangesAsync();
+
+            return data;
         }
     }
 }

@@ -8,6 +8,7 @@ using ProjectJunior.Models;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Data.Interfaces;
 using ProjectJunior.Services.Response;
+using ProjectJunior.Data.Implementations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -49,6 +50,12 @@ namespace ProjectJunior.Controllers
         public IBaseResponse<Class> Delete(int id)
         {
             return _classService.Delete(id);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IBaseResponse<Class>> Update(int id, Class obj)
+        {
+            return await _classService.Update(id, obj);
         }
     }
 }

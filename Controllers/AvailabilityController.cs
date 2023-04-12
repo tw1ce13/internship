@@ -48,6 +48,12 @@ namespace ProjectJunior.Controllers
         {
             return _availabilityService.Delete(id);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IBaseResponse<Availability>> Update(int id, Availability availability)
+        {
+            return await _availabilityService.Update(id, availability);
+        }
     }
 }
 

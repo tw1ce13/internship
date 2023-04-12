@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 
 namespace ProjectJunior.Data.Repositories
 {
-	public class EmployeeRepository : IGeneralRepository<Employee>
-	{
+	public class EmployeeRepository : IEmployeeRepository
+    {
         private readonly ProjectContext _context;
         public EmployeeRepository(ProjectContext context)
         {
@@ -64,6 +65,14 @@ namespace ProjectJunior.Data.Repositories
         public async Task<IEnumerable<Employee>> GetAll()
         {
             return await _context.Employees.ToListAsync();
+        }
+
+        public async Task<Employee> Update(Employee data)
+        {
+            _context.Employees.Update(data);
+            await _context.SaveChangesAsync();
+
+            return data;
         }
     }
 }

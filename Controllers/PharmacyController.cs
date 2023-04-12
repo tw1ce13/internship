@@ -52,6 +52,12 @@ namespace ProjectJunior.Controllers
         {
             return _pharmacyService.Delete(id);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IBaseResponse<Pharmacy>> Update(int id, Pharmacy obj)
+        {
+            return await _pharmacyService.Update(id, obj);
+        }
     }
 }
 

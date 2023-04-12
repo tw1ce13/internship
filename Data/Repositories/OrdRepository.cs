@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 
 namespace ProjectJunior.Data.Repositories
 {
-	public class OrdRepository : IGeneralRepository<Ord>
-	{
+	public class OrdRepository : IOrdRepository
+    {
         private readonly ProjectContext _context;
         public OrdRepository(ProjectContext context)
         {
@@ -64,6 +65,14 @@ namespace ProjectJunior.Data.Repositories
         public async Task<IEnumerable<Ord>> GetAll()
         {
             return await _context.Ords.ToListAsync();
+        }
+
+        public async Task<Ord> Update(Ord data)
+        {
+            _context.Ords.Update(data);
+            await _context.SaveChangesAsync();
+
+            return data;
         }
     }
 }

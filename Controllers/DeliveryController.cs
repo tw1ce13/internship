@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using System.Data.Entity;
 using ProjectJunior.Data.Interfaces;
 using ProjectJunior.Services.Response;
+using ProjectJunior.Data.Implementations;
 
 namespace ProjectJunior.Controllers
 {
@@ -50,6 +51,12 @@ namespace ProjectJunior.Controllers
         public IBaseResponse<Delivery> Delete(int id)
         {
             return _deliveryService.Delete(id);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IBaseResponse<Delivery>> Update(int id, Delivery obj)
+        {
+            return await _deliveryService.Update(id, obj);
         }
     }
 }

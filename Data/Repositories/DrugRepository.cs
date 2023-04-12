@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Data.Entity;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 
 namespace ProjectJunior.Data.Repositories
 {
-	public class DrugRepository : IGeneralRepository<Drug>
-	{
+	public class DrugRepository : IDrugRepository
+    {
         private readonly ProjectContext _context;
         public DrugRepository(ProjectContext context)
         {
@@ -64,6 +65,14 @@ namespace ProjectJunior.Data.Repositories
         public async Task<IEnumerable<Drug>> GetAll()
         {
             return await _context.Drugs.ToListAsync();
+        }
+
+        public async Task<Drug> Update(Drug data)
+        {
+            _context.Drugs.Update(data);
+            await _context.SaveChangesAsync();
+
+            return data;
         }
     }
 }

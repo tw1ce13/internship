@@ -2,10 +2,12 @@
 using ProjectJunior.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using ProjectJunior.Models;
+using ProjectJunior.Data.IRepositories;
+
 namespace ProjectJunior.Data.Repositories
 {
-	public class PharmacyRepository : IGeneralRepository<Pharmacy>
-	{
+	public class PharmacyRepository : IPharmacyRepository
+    {
         private readonly ProjectContext _context;
         public PharmacyRepository(ProjectContext context)
         {
@@ -63,6 +65,14 @@ namespace ProjectJunior.Data.Repositories
         public async Task<IEnumerable<Pharmacy>> GetAll()
         {
             return await _context.Pharmacies.ToListAsync();
+        }
+
+        public async Task<Pharmacy> Update(Pharmacy data)
+        {
+            _context.Pharmacies.Update(data);
+            await _context.SaveChangesAsync();
+
+            return data;
         }
     }
 }
