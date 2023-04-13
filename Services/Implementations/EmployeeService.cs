@@ -1,5 +1,6 @@
 ﻿using System;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 using ProjectJunior.Services.Response;
 
@@ -7,11 +8,11 @@ namespace ProjectJunior.Data.Implementations
 {
 	public class EmployeeService : IEmployeeService
 	{
-        private readonly IGeneralRepository<Employee> _employeeRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
 
 
-        public EmployeeService(IGeneralRepository<Employee> employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }
@@ -19,11 +20,8 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Employee> Add(Employee employee)
         {
-            var baseResponse = new BaseResponse<Employee>();
             _employeeRepository.Add(employee);
-            baseResponse.Description = "Успешно добавлено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = employee;
+            var baseResponse = new BaseResponse<Employee>("Success", StatusCode.OK, employee);
             return baseResponse;
         }
 
@@ -31,22 +29,16 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Employee> Delete(int id)
         {
-            var baseResponse = new BaseResponse<Employee>();
             Employee employee = new Employee() { Id = id };
             _employeeRepository.Delete(employee);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = employee;
+            var baseResponse = new BaseResponse<Employee>("Success", StatusCode.OK, employee);
             return baseResponse;
         }
 
         public IBaseResponse<Employee> Delete(Employee employee)
         {
-            var baseResponse = new BaseResponse<Employee>();
             _employeeRepository.Delete(employee);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = employee;
+            var baseResponse = new BaseResponse<Employee>("Success", StatusCode.OK, employee);
             return baseResponse;
         }
 
@@ -103,28 +95,22 @@ namespace ProjectJunior.Data.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Employee>> Update(int id, Employee obj)
+        public async Task<IBaseResponse<Employee>> Update(Employee obj)
         {
             var baseResponse = new BaseResponse<Employee>();
             try
             {
-                var employee = await _employeeRepository.Get(id);
-                if (employee == null)
+                if (obj == null)
                 {
                     baseResponse.Description = "Объект не найден";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
-                employee.Name = obj.Name;
-                employee.Surname = obj.Surname;
-                employee.Post = obj.Post;
-                employee.PharmacyId = obj.PharmacyId;
-                employee.Pharmacy = obj.Pharmacy;
 
 
-                await _employeeRepository.Update(employee);
+                await _employeeRepository.Update(obj);
 
-                baseResponse.Data = employee;
+                baseResponse.Data = obj;
                 baseResponse.Description = "успешно";
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;

@@ -10,7 +10,7 @@ namespace ProjectJunior.Services.Interfaces
         IBaseResponse<Web> Delete(int id);
         IBaseResponse<Web> Delete(Web web);
 		IBaseResponse<Web> Add(Web web);
-        Task<IBaseResponse<Web>> Update(int id, Web obj);
+        Task<IBaseResponse<Web>> Update(Web obj);
 
     }
 }

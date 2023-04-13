@@ -56,7 +56,7 @@ namespace ProjectJunior.Controllers
         [HttpPut("{id}")]
         public async Task<IBaseResponse<Delivery>> Update(int id, Delivery obj)
         {
-            return await _deliveryService.Update(id, obj);
+            return await _deliveryService.Update(obj);
         }
     }
 }

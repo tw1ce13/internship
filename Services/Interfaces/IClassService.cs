@@ -11,7 +11,7 @@ namespace ProjectJunior.Data.Interfaces
         IBaseResponse<Class> Delete(int id);
         IBaseResponse<Class> Delete(Class obj);
         IBaseResponse<Class> Add(Class obj);
-        Task<IBaseResponse<Class>> Update(int id, Class obj);
+        Task<IBaseResponse<Class>> Update(Class obj);
 
     }
 }

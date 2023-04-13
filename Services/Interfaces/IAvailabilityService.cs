@@ -11,7 +11,7 @@ namespace ProjectJunior.Data.Interfaces
         IBaseResponse<Availability> Delete(int id);
         IBaseResponse<Availability> Delete(Availability obj);
         IBaseResponse<Availability> Add(Availability obj);
-        Task<IBaseResponse<Availability>> Update(int id, Availability obj);
+        Task<IBaseResponse<Availability>> Update(Availability obj);
     }
 }
 

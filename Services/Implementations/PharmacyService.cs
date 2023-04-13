@@ -1,5 +1,6 @@
 ﻿using System;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 using ProjectJunior.Services.Response;
 
@@ -7,11 +8,11 @@ namespace ProjectJunior.Data.Implementations
 {
 	public class PharmacyService : IPharmacyService
 	{
-        private readonly IGeneralRepository<Pharmacy> _pharmacyRepository;
+        private readonly IPharmacyRepository _pharmacyRepository;
 
 
 
-        public PharmacyService(IGeneralRepository<Pharmacy> pharmacyRepository)
+        public PharmacyService(IPharmacyRepository pharmacyRepository)
         {
             _pharmacyRepository = pharmacyRepository;
         }
@@ -20,11 +21,8 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Pharmacy> Add(Pharmacy pharmacy)
         {
-            var baseResponse = new BaseResponse<Pharmacy>();
             _pharmacyRepository.Add(pharmacy);
-            baseResponse.Description = "Успешно добавлено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = pharmacy;
+            var baseResponse = new BaseResponse<Pharmacy>("Success", StatusCode.OK, pharmacy);
             return baseResponse;
         }
 
@@ -32,22 +30,16 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Pharmacy> Delete(int id)
         {
-            var baseResponse = new BaseResponse<Pharmacy>();
             Pharmacy pharmacy = new Pharmacy() { Id = id };
             _pharmacyRepository.Delete(pharmacy);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = pharmacy;
+            var baseResponse = new BaseResponse<Pharmacy>("Success", StatusCode.OK, pharmacy);
             return baseResponse;
         }
 
         public IBaseResponse<Pharmacy> Delete(Pharmacy pharmacy)
         {
-            var baseResponse = new BaseResponse<Pharmacy>();
             _pharmacyRepository.Delete(pharmacy);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = pharmacy;
+            var baseResponse = new BaseResponse<Pharmacy>("Success", StatusCode.OK, pharmacy);
             return baseResponse;
         }
 
@@ -104,26 +96,21 @@ namespace ProjectJunior.Data.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Pharmacy>> Update(int id, Pharmacy obj)
+        public async Task<IBaseResponse<Pharmacy>> Update(Pharmacy obj)
         {
             var baseResponse = new BaseResponse<Pharmacy>();
             try
             {
-                var pharmacy = await _pharmacyRepository.Get(id);
-                if (pharmacy == null)
+                if (obj == null)
                 {
                     baseResponse.Description = "Объект не найден";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
-                pharmacy.Address = obj.Address;
-                pharmacy.Type = obj.Type;
-                pharmacy.Web = obj.Web;
-                pharmacy.WebId = obj.WebId;
 
-                await _pharmacyRepository.Update(pharmacy);
+                await _pharmacyRepository.Update(obj);
 
-                baseResponse.Data = pharmacy;
+                baseResponse.Data = obj;
                 baseResponse.Description = "успешно";
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;

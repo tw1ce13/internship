@@ -1,5 +1,6 @@
 ﻿using System;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 using ProjectJunior.Services.Response;
 
@@ -7,11 +8,11 @@ namespace ProjectJunior.Data.Implementations
 {
 	public class DiscountService : IDiscountService
 	{
-        private readonly IGeneralRepository<Discount> _discountRepository;
+        private readonly IDiscountRepository _discountRepository;
 
 
 
-        public DiscountService(IGeneralRepository<Discount> discountRepository)
+        public DiscountService(IDiscountRepository discountRepository)
         {
             _discountRepository = discountRepository;
         }
@@ -20,11 +21,8 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Discount> Add(Discount discount)
         {
-            var baseResponse = new BaseResponse<Discount>();
             _discountRepository.Add(discount);
-            baseResponse.Description = "Успешно добавлено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = discount;
+            var baseResponse = new BaseResponse<Discount>("Success", StatusCode.OK, discount);
             return baseResponse;
         }
 
@@ -32,22 +30,16 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Discount> Delete(int id)
         {
-            var baseResponse = new BaseResponse<Discount>();
             Discount discount = new Discount() { Id = id };
             _discountRepository.Delete(discount);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = discount;
+            var baseResponse = new BaseResponse<Discount>("Success", StatusCode.OK, discount);
             return baseResponse;
         }
 
         public IBaseResponse<Discount> Delete(Discount discount)
         {
-            var baseResponse = new BaseResponse<Discount>();
             _discountRepository.Delete(discount);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = discount;
+            var baseResponse = new BaseResponse<Discount>("Success", StatusCode.OK, discount);
             return baseResponse;
         }
 
@@ -104,26 +96,22 @@ namespace ProjectJunior.Data.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Discount>> Update(int id, Discount obj)
+        public async Task<IBaseResponse<Discount>> Update(Discount obj)
         {
             var baseResponse = new BaseResponse<Discount>();
             try
             {
-                var discount = await _discountRepository.Get(id);
-                if (discount == null)
+                if (obj == null)
                 {
                     baseResponse.Description = "Объект не найден";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
-                discount.Name = obj.Name;
-                discount.Type = obj.Type;
-                discount.Value = obj.Value;
 
 
-                await  _discountRepository.Update(discount);
+                await  _discountRepository.Update(obj);
 
-                baseResponse.Data = discount;
+                baseResponse.Data = obj;
                 baseResponse.Description = "успешно";
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;

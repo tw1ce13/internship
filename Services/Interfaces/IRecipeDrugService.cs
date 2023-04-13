@@ -11,7 +11,7 @@ namespace ProjectJunior.Data.Interfaces
         IBaseResponse<RecipeDrug> Delete(int id);
         IBaseResponse<RecipeDrug> Delete(RecipeDrug obj);
         IBaseResponse<RecipeDrug> Add(RecipeDrug obj);
-        Task<IBaseResponse<RecipeDrug>> Update(int id, RecipeDrug obj);
+        Task<IBaseResponse<RecipeDrug>> Update(RecipeDrug obj);
 
     }
 }

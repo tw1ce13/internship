@@ -1,5 +1,6 @@
 ﻿using System;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 using ProjectJunior.Services.Response;
 
@@ -7,11 +8,11 @@ namespace ProjectJunior.Data.Implementations
 {
 	public class ClassService : IClassService
 	{
-        private readonly IGeneralRepository<Class> _classRepository;
+        private readonly IClassRepository _classRepository;
 
 
 
-        public ClassService(IGeneralRepository<Class> classRepository)
+        public ClassService(IClassRepository classRepository)
         {
             _classRepository = classRepository;
         }
@@ -20,11 +21,9 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Class> Add(Class obj)
         {
-            var baseResponse = new BaseResponse<Class>();
             _classRepository.Add(obj);
-            baseResponse.Description = "Успешно добавлено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = obj;
+            var baseResponse = new BaseResponse<Class>("Success", StatusCode.OK, obj);
+
             return baseResponse;
         }
 
@@ -32,25 +31,21 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Class> Delete(int id)
         {
-            var baseResponse = new BaseResponse<Class>();
             Class obj = new Class()
             {
                 ClassId = id
             };
             _classRepository.Delete(obj);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = obj;
+            var baseResponse = new BaseResponse<Class>("Success", StatusCode.OK, obj);
+
             return baseResponse;
         }
 
         public IBaseResponse<Class> Delete(Class obj)
         {
-            var baseResponse = new BaseResponse<Class>();
             _classRepository.Delete(obj);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = obj;
+            var baseResponse = new BaseResponse<Class>("Success", StatusCode.OK, obj);
+
             return baseResponse;
         }
 
@@ -107,26 +102,23 @@ namespace ProjectJunior.Data.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Class>> Update(int id, Class obj)
+        public async Task<IBaseResponse<Class>> Update(Class obj)
         {
             var baseResponse = new BaseResponse<Class>();
             try
             {
-                var @class = await _classRepository.Get(id);
-                if (@class == null)
+                if (obj == null)
                 {
                     baseResponse.Description = "Объект не найден";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
-                @class.ClassId = obj.ClassId;
-                @class.Name = obj.Name;
 
 
 
-               await _classRepository.Update(@class);
+               await _classRepository.Update(obj);
 
-                baseResponse.Data = @class;
+                baseResponse.Data = obj;
                 baseResponse.Description = "успешно";
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;

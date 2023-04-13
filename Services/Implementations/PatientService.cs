@@ -1,5 +1,6 @@
 ﻿using System;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 using ProjectJunior.Services.Response;
 
@@ -7,11 +8,11 @@ namespace ProjectJunior.Data.Implementations
 {
 	public class PatientService : IPatientService
 	{
-        private readonly IGeneralRepository<Patient> _patientRepository;
+        private readonly IPatientRepository _patientRepository;
 
 
 
-        public PatientService(IGeneralRepository<Patient> patientRepository)
+        public PatientService(IPatientRepository patientRepository)
         {
             _patientRepository = patientRepository;
         }
@@ -20,11 +21,8 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Patient> Add(Patient patient)
         {
-            var baseResponse = new BaseResponse<Patient>();
             _patientRepository.Add(patient);
-            baseResponse.Description = "Успешно добавлено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = patient;
+            var baseResponse = new BaseResponse<Patient>("Success", StatusCode.OK, patient);
             return baseResponse;
         }
 
@@ -32,22 +30,16 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Patient> Delete(int id)
         {
-            var baseResponse = new BaseResponse<Patient>();
             Patient patient = new Patient() { Id = id };
             _patientRepository.Delete(patient);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = patient;
+            var baseResponse = new BaseResponse<Patient>("Success", StatusCode.OK, patient);
             return baseResponse;
         }
 
         public IBaseResponse<Patient> Delete(Patient patient)
         {
-            var baseResponse = new BaseResponse<Patient>();
             _patientRepository.Delete(patient);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = patient;
+            var baseResponse = new BaseResponse<Patient>("Success", StatusCode.OK, patient);
             return baseResponse;
         }
 
@@ -104,28 +96,21 @@ namespace ProjectJunior.Data.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Patient>> Update(int id, Patient obj)
+        public async Task<IBaseResponse<Patient>> Update(Patient obj)
         {
             var baseResponse = new BaseResponse<Patient>();
             try
             {
-                var patient = await _patientRepository.Get(id);
-                if (patient == null)
+                if (obj == null)
                 {
                     baseResponse.Description = "Объект не найден";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
-                patient.Age = obj.Age;
-                patient.IsPrivilege = obj.IsPrivilege;
-                patient.MainDiagnosis = obj.MainDiagnosis;
-                patient.Name = obj.Name;
-                patient.SubDiagnosis = obj.SubDiagnosis;
-                patient.Surname = obj.Surname;
 
-                await  _patientRepository.Update(patient);
+                await  _patientRepository.Update(obj);
 
-                baseResponse.Data = patient;
+                baseResponse.Data = obj;
                 baseResponse.Description = "успешно";
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;

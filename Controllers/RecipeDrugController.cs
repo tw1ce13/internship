@@ -53,7 +53,7 @@ namespace ProjectJunior.Controllers
         [HttpPut("{id}")]
         public async Task<IBaseResponse<RecipeDrug>> Update(int id, RecipeDrug obj)
         {
-            return await _recipeDrugService.Update(id, obj);
+            return await _recipeDrugService.Update(obj);
         }
     }
 }

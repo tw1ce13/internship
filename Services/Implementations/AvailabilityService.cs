@@ -1,5 +1,6 @@
 ﻿using System;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 using ProjectJunior.Services.Response;
 
@@ -7,11 +8,11 @@ namespace ProjectJunior.Data.Implementations
 {
 	public class AvailabilityService : IAvailabilityService
 	{
-        private readonly IGeneralRepository<Availability> _availabilityRepository;
+        private readonly IAvailabilityRepository _availabilityRepository;
 
 
 
-        public AvailabilityService(IGeneralRepository<Availability> availabilityRepository)
+        public AvailabilityService(IAvailabilityRepository availabilityRepository)
         {
             _availabilityRepository = availabilityRepository;
         }
@@ -20,11 +21,8 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Availability> Add(Availability availability)
         {
-            var baseResponse = new BaseResponse<Availability>();
             _availabilityRepository.Add(availability);
-            baseResponse.Description = "Успешно добавлено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = availability;
+            var baseResponse = new BaseResponse<Availability>("Success", StatusCode.OK, availability);
             return baseResponse;
         }
 
@@ -32,22 +30,18 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Availability> Delete(int id)
         {
-            var baseResponse = new BaseResponse<Availability>();
+            
             Availability availability = new Availability() { Id = id };
             _availabilityRepository.Delete(availability);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = availability;
+            var baseResponse = new BaseResponse<Availability>("Success", StatusCode.OK, availability);
             return baseResponse;
         }
 
         public IBaseResponse<Availability> Delete(Availability availability)
         {
-            var baseResponse = new BaseResponse<Availability>();
             _availabilityRepository.Delete(availability);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = availability;
+            var baseResponse = new BaseResponse<Availability>("Success", StatusCode.OK, availability);
+
             return baseResponse;
         }
 
@@ -57,12 +51,14 @@ namespace ProjectJunior.Data.Implementations
             try
             {
                 var availability = await _availabilityRepository.Get(id);
+
                 if (availability == null)
                 {
                     baseResponse.Description = "Не найдено";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
+
                 baseResponse.Data = availability;
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;
@@ -104,30 +100,21 @@ namespace ProjectJunior.Data.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Availability>> Update(int id, Availability obj)
+        public async Task<IBaseResponse<Availability>> Update(Availability obj)
         {
             var baseResponse = new BaseResponse<Availability>();
             try
             {
-                var availability = await _availabilityRepository.Get(id);
-                if (availability == null)
+                if (obj== null)
                 {
                     baseResponse.Description = "Объект не найден";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
-                availability.Count = obj.Count;
-                availability.Delivery = obj.Delivery;
-                availability.DeliveryId = obj.DeliveryId;
-                availability.Drug = obj.Drug;
-                availability.DrugId = obj.DrugId;
-                availability.Pharmacy = obj.Pharmacy;
-                availability.PharmacyId = obj.PharmacyId;
 
+                await _availabilityRepository.Update(obj);
 
-                await _availabilityRepository.Update(availability);
-
-                baseResponse.Data = availability;
+                baseResponse.Data = obj;
                 baseResponse.Description = "успешно";
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;

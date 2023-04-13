@@ -11,7 +11,7 @@ namespace ProjectJunior.Data.Interfaces
         IBaseResponse<Delivery> Delete(int id);
         IBaseResponse<Delivery> Delete(Delivery delivery);
         IBaseResponse<Delivery> Add(Delivery delivery);
-        Task<IBaseResponse<Delivery>> Update(int id, Delivery obj);
+        Task<IBaseResponse<Delivery>> Update(Delivery obj);
 
     }
 }

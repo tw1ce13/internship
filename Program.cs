@@ -7,6 +7,7 @@ using ProjectJunior.Data.Repositories;
 using ProjectJunior.Services.Interfaces;
 using ProjectJunior.Services.Implementations;
 using ProjectJunior.Data.Implementations;
+using ProjectJunior.Data.IRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,19 +33,19 @@ builder.Services.AddTransient<IRecipeService, RecipeService>();
 builder.Services.AddTransient<IWebService, WebService>();
 
 
-builder.Services.AddScoped<IGeneralRepository<Availability>, AvailabilityRepository>();
-builder.Services.AddScoped<IGeneralRepository<Discount>, DiscountRepository>();
-builder.Services.AddScoped<IGeneralRepository<Class>, ClassRepository>();
-builder.Services.AddScoped<IGeneralRepository<Delivery>, DeliveryRepository>();
-builder.Services.AddScoped<IGeneralRepository<Drug>, DrugRepository>();
-builder.Services.AddScoped<IGeneralRepository<Employee>, EmployeeRepository>();
-builder.Services.AddScoped<IGeneralRepository<OrdDrug>, OrdDrugRepository>();
-builder.Services.AddScoped<IGeneralRepository<Ord>, OrdRepository>();
-builder.Services.AddScoped<IGeneralRepository<Patient>, PatientRepository>();
-builder.Services.AddScoped<IGeneralRepository<Pharmacy>, PharmacyRepository>();
-builder.Services.AddScoped<IGeneralRepository<RecipeDrug>, RecipeDrugRepository>();
-builder.Services.AddScoped<IGeneralRepository<Recipe>, RecipeRepository>();
-builder.Services.AddScoped<IGeneralRepository<Web>, WebRepository>();
+builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
+builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
+builder.Services.AddScoped<IDrugRepository, DrugRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IOrdDrugRepository, OrdDrugRepository>();
+builder.Services.AddScoped<IOrdRepository, OrdRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
+builder.Services.AddScoped<IRecipeDrugRepository, RecipeDrugRepository>();
+builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
+builder.Services.AddScoped<IWebRepository, WebRepository>();
 
 
 var app = builder.Build();

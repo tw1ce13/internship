@@ -1,5 +1,6 @@
 ﻿using System;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 using ProjectJunior.Services.Response;
 
@@ -7,11 +8,11 @@ namespace ProjectJunior.Data.Implementations
 {
 	public class OrdDrugService : IOrdDrugService
 	{
-        private readonly IGeneralRepository<OrdDrug> _ordDrugRepository;
+        private readonly IOrdDrugRepository _ordDrugRepository;
 
 
 
-        public OrdDrugService(IGeneralRepository<OrdDrug> ordDrugRepository)
+        public OrdDrugService(IOrdDrugRepository ordDrugRepository)
         {
             _ordDrugRepository = ordDrugRepository;
         }
@@ -20,11 +21,8 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<OrdDrug> Add(OrdDrug ordDrug)
         {
-            var baseResponse = new BaseResponse<OrdDrug>();
             _ordDrugRepository.Add(ordDrug);
-            baseResponse.Description = "Успешно добавлено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = ordDrug;
+            var baseResponse = new BaseResponse<OrdDrug>("Success", StatusCode.OK, ordDrug);
             return baseResponse;
         }
 
@@ -32,22 +30,16 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<OrdDrug> Delete(int id)
         {
-            var baseResponse = new BaseResponse<OrdDrug>();
             OrdDrug ordDrug = new OrdDrug() { Id = id };
             _ordDrugRepository.Delete(ordDrug);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = ordDrug;
+            var baseResponse = new BaseResponse<OrdDrug>("Success", StatusCode.OK, ordDrug);
             return baseResponse;
         }
 
         public IBaseResponse<OrdDrug> Delete(OrdDrug ordDrug)
         {
-            var baseResponse = new BaseResponse<OrdDrug>();
             _ordDrugRepository.Delete(ordDrug);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = ordDrug;
+            var baseResponse = new BaseResponse<OrdDrug>("Success", StatusCode.OK, ordDrug);
             return baseResponse;
         }
 
@@ -104,31 +96,22 @@ namespace ProjectJunior.Data.Implementations
             }
         }
 
-        public async Task<IBaseResponse<OrdDrug>> Update(int id, OrdDrug obj)
+        public async Task<IBaseResponse<OrdDrug>> Update(OrdDrug obj)
         {
             var baseResponse = new BaseResponse<OrdDrug>();
             try
             {
-                var ordDrug = await _ordDrugRepository.Get(id);
-                if (ordDrug == null)
+                if (obj == null)
                 {
                     baseResponse.Description = "Объект не найден";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
-                ordDrug.Count = obj.Count;
-                ordDrug.Ord = obj.Ord;
-                ordDrug.OrdId = obj.OrdId;
-                ordDrug.Price = obj.Price;
-                ordDrug.Discount = obj.Discount;
-                ordDrug.DiscountId = obj.DiscountId;
-                ordDrug.Drug = obj.Drug;
-                ordDrug.DrugId = obj.DrugId;
 
 
-                await _ordDrugRepository.Update(ordDrug);
+                await _ordDrugRepository.Update(obj);
 
-                baseResponse.Data = ordDrug;
+                baseResponse.Data = obj;
                 baseResponse.Description = "успешно";
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;

@@ -52,7 +52,7 @@ namespace ProjectJunior.Controllers
         [HttpPut("{id}")]
         public async Task<IBaseResponse<Availability>> Update(int id, Availability availability)
         {
-            return await _availabilityService.Update(id, availability);
+            return await _availabilityService.Update(availability);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 using ProjectJunior.Services.Response;
 
@@ -7,11 +8,11 @@ namespace ProjectJunior.Data.Implementations
 {
 	public class DeliveryService : IDeliveryService
 	{
-        private readonly IGeneralRepository<Delivery> _deliveryRepository;
+        private readonly IDeliveryRepository _deliveryRepository;
 
 
 
-        public DeliveryService(IGeneralRepository<Delivery> deliveryRepository)
+        public DeliveryService(IDeliveryRepository deliveryRepository)
         {
             _deliveryRepository = deliveryRepository;
         }
@@ -20,11 +21,8 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Delivery> Add(Delivery delivery)
         {
-            var baseResponse = new BaseResponse<Delivery>();
             _deliveryRepository.Add(delivery);
-            baseResponse.Description = "Успешно добавлено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = delivery;
+            var baseResponse = new BaseResponse<Delivery>("Success", StatusCode.OK, delivery);
             return baseResponse;
         }
 
@@ -32,22 +30,16 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Delivery> Delete(int id)
         {
-            var baseResponse = new BaseResponse<Delivery>();
             Delivery delivery = new Delivery() { Id = id };
             _deliveryRepository.Delete(delivery);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = delivery;
+            var baseResponse = new BaseResponse<Delivery>("Success", StatusCode.OK, delivery);
             return baseResponse;
         }
 
         public IBaseResponse<Delivery> Delete(Delivery delivery)
         {
-            var baseResponse = new BaseResponse<Delivery>();
             _deliveryRepository.Delete(delivery);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = delivery;
+            var baseResponse = new BaseResponse<Delivery>("Success", StatusCode.OK, delivery);
             return baseResponse;
         }
 
@@ -104,25 +96,22 @@ namespace ProjectJunior.Data.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Delivery>> Update(int id, Delivery obj)
+        public async Task<IBaseResponse<Delivery>> Update(Delivery obj)
         {
             var baseResponse = new BaseResponse<Delivery>();
             try
             {
-                var delivery = await _deliveryRepository.Get(id);
-                if (delivery == null)
+                if (obj == null)
                 {
                     baseResponse.Description = "Объект не найден";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
-                delivery.CreateData = obj.CreateData;
-                delivery.ExpirationData = obj.ExpirationData;
 
 
-                await _deliveryRepository.Update(delivery);
+                await _deliveryRepository.Update(obj);
 
-                baseResponse.Data = delivery;
+                baseResponse.Data = obj;
                 baseResponse.Description = "успешно";
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;

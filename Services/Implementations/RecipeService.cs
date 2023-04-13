@@ -1,5 +1,6 @@
 ﻿using System;
 using ProjectJunior.Data.Interfaces;
+using ProjectJunior.Data.IRepositories;
 using ProjectJunior.Models;
 using ProjectJunior.Services.Response;
 
@@ -7,11 +8,11 @@ namespace ProjectJunior.Data.Implementations
 {
 	public class RecipeService : IRecipeService
 	{
-        private readonly IGeneralRepository<Recipe> _recipeRepository;
+        private readonly IRecipeRepository _recipeRepository;
 
 
 
-        public RecipeService(IGeneralRepository<Recipe> recipeRepository)
+        public RecipeService(IRecipeRepository recipeRepository)
         {
             _recipeRepository = recipeRepository;
         }
@@ -20,11 +21,9 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Recipe> Add(Recipe recipe)
         {
-            var baseResponse = new BaseResponse<Recipe>();
             _recipeRepository.Add(recipe);
-            baseResponse.Description = "Успешно добавлено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = recipe;
+            var baseResponse = new BaseResponse<Recipe>("Success", StatusCode.OK, recipe);
+
             return baseResponse;
         }
 
@@ -32,22 +31,18 @@ namespace ProjectJunior.Data.Implementations
 
         public IBaseResponse<Recipe> Delete(int id)
         {
-            var baseResponse = new BaseResponse<Recipe>();
             Recipe recipe = new Recipe() { Id = id };
             _recipeRepository.Delete(recipe);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = recipe;
+            var baseResponse = new BaseResponse<Recipe>("Success", StatusCode.OK, recipe);
+
             return baseResponse;
         }
 
         public IBaseResponse<Recipe> Delete(Recipe recipe)
         {
-            var baseResponse = new BaseResponse<Recipe>();
             _recipeRepository.Delete(recipe);
-            baseResponse.Description = "Успешно удалено";
-            baseResponse.StatusCode = StatusCode.OK;
-            baseResponse.Data = recipe;
+            var baseResponse = new BaseResponse<Recipe>("Success", StatusCode.OK, recipe);
+
             return baseResponse;
         }
 
@@ -104,24 +99,22 @@ namespace ProjectJunior.Data.Implementations
             }
         }
 
-        public async Task<IBaseResponse<Recipe>> Update(int id, Recipe obj)
+        public async Task<IBaseResponse<Recipe>> Update(Recipe obj)
         {
             var baseResponse = new BaseResponse<Recipe>();
             try
             {
-                var recipe = await _recipeRepository.Get(id);
-                if (recipe == null)
+                if (obj == null)
                 {
                     baseResponse.Description = "Объект не найден";
                     baseResponse.StatusCode = StatusCode.OK;
                     return baseResponse;
                 }
-                recipe.Name = obj.Name;
 
 
-                await _recipeRepository.Update(recipe);
+                await _recipeRepository.Update(obj);
 
-                baseResponse.Data = recipe;
+                baseResponse.Data = obj;
                 baseResponse.Description = "успешно";
                 baseResponse.StatusCode = StatusCode.OK;
                 return baseResponse;

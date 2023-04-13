@@ -55,7 +55,7 @@ namespace ProjectJunior.Controllers
         [HttpPut("{id}")]
         public async Task<IBaseResponse<Discount>> Update(int id, Discount obj)
         {
-            return await _discountService.Update(id, obj);
+            return await _discountService.Update(obj);
         }
     }
 }

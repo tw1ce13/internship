@@ -54,7 +54,7 @@ namespace ProjectJunior.Controllers
         [HttpPut("{id}")]
         public async Task<IBaseResponse<Web>> Update(int id, Web obj)
         {
-            return await _webService.Update(id, obj);
+            return await _webService.Update(obj);
         }
     }    
 }
