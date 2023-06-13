@@ -8,10 +8,11 @@ namespace PharmacyProject.DAL.Repositories
 	public class AvailabilityRepository : IAvailabilityRepository
 	{
         private readonly PharmacyContext _context;
-		public AvailabilityRepository(PharmacyContext context)
-		{
-            _context = context;
-		}
+	
+	public AvailabilityRepository(PharmacyContext context)
+	{
+		_context = context;
+	}
 
         public void Add(Availability data)
         {
