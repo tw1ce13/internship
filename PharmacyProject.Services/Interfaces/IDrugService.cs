@@ -13,6 +13,7 @@ namespace PharmacyProject.Services.Interfaces
         IBaseResponse<Drug> Add(Drug obj);
         IBaseResponse<Drug> Update(Drug obj);
         Task<BaseResponse<IEnumerable<DrugResult>>> GetDrugs(IEnumerable<Availability> availabilities, IEnumerable<Class> classes, IEnumerable<Delivery> deliveries);
+        Task<BaseResponse<IEnumerable<DrugInOrder>>> GetDrugInOrders(IEnumerable<Order> orders, IEnumerable<OrdDrug> ordDrugs, int userId);
     }
 }
 

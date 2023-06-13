@@ -118,6 +118,33 @@ namespace PharmacyProject.Services.Implementations
             }
         }
 
+        public async Task<BaseResponse<IEnumerable<DrugInOrder>>> GetDrugInOrders(IEnumerable<Order> orders, IEnumerable<OrdDrug> ordDrugs, int userId)
+        {
+            var baseResponse = new BaseResponse<IEnumerable<DrugInOrder>>();
+            try
+            {
+                var list = await _drugRepository.GetDrugInOrders(orders, ordDrugs, userId);
+
+                if (list == null)
+                {
+                    baseResponse.Description = "Найдено 0 элементов";
+                    baseResponse.StatusCode = StatusCode.OK;
+                    return baseResponse;
+                }
+                baseResponse.Data = list;
+                baseResponse.StatusCode = StatusCode.OK;
+                return baseResponse;
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<DrugInOrder>>()
+                {
+                    StatusCode = StatusCode.Error,
+                    Description = ex.Message
+                };
+            }
+        }
+
 
         public async Task<BaseResponse<IEnumerable<DrugResult>>> GetDrugs(IEnumerable<Availability> availabilities, IEnumerable<Class> classes, IEnumerable<Delivery> deliveries)
         {
