@@ -1,0 +1,17 @@
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/PharmacyProject.Services.csproj.AssemblyReference.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/PharmacyProject.Services.GeneratedMSBuildEditorConfig.editorconfig
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/PharmacyProject.Services.AssemblyInfoInputs.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/PharmacyProject.Services.AssemblyInfo.cs
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/PharmacyProject.Services.csproj.CoreCompileInputs.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/bin/Debug/net7.0/PharmacyProject.Services.deps.json
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/bin/Debug/net7.0/PharmacyProject.Services.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/bin/Debug/net7.0/PharmacyProject.Services.pdb
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/bin/Debug/net7.0/PharmacyProject.DAL.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/bin/Debug/net7.0/PharmacyProject.Domain.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/bin/Debug/net7.0/PharmacyProject.Domain.pdb
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/bin/Debug/net7.0/PharmacyProject.DAL.pdb
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/PharmacyProject.Services.csproj.CopyComplete
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/PharmacyProject.Services.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/refint/PharmacyProject.Services.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/PharmacyProject.Services.pdb
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Services/obj/Debug/net7.0/ref/PharmacyProject.Services.dll
