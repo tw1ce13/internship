@@ -1,0 +1,110 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Main";
+}
+
+
+    <h1>Регистрация пользователя</h1>
+    <form id="registerForm" method="POST" action="@Url.Action("AddUser", "Home")">
+        <label for="email">Электронная почта:</label>
+        <input type="text" id="email" name="email" required>
+
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="firstName">Имя:</label>
+        <input type="text" id="firstName" name="firstName" required>
+
+        <label for="lastName">Фамилия:</label>
+        <input type="text" id="lastName" name="lastName" required>
+
+        <label for="age">Возраст:</label>
+        <input type="text" id="age" name="age" required>
+
+        <label for="mainDiagnosis">Диагноз:</label>
+        <input type="text" id="mainDiagnosis" name="mainDiagnosis" required>
+
+        <label for="subDiagnosis">Побочный Диагноз:</label>
+        <input type="text" id="subDiagnosis" name="subDiagnosis">
+        <label>
+            <input type="checkbox" id ="privileges" name="privileges">
+            Есть ли привилегии
+        </label>
+
+        <button type="submit" class="register-btn">Зарегистрироваться</button>
+    </form>
+
+
+    <style>
+        /* Общие стили */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 50px 0;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        select {
+            height: 40px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .btn:hover {
+            background-color: #0069d9;
+        }
+
+    </style>
+

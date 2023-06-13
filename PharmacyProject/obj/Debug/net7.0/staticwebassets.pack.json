@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/nikitos/Projects/PharmacyProject/PharmacyProject/wwwroot/.DS_Store",
+      "PackagePath": "staticwebassets/.DS_Store"
+    },
+    {
+      "Id": "/Users/nikitos/Projects/PharmacyProject/PharmacyProject/wwwroot/css/img/9.jpeg",
+      "PackagePath": "staticwebassets/css/img/9.jpeg"
+    },
+    {
+      "Id": "/Users/nikitos/Projects/PharmacyProject/PharmacyProject/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/Users/nikitos/Projects/PharmacyProject/PharmacyProject/wwwroot/js/site.js",
+      "PackagePath": "staticwebassets/js/site.js"
+    },
+    {
+      "Id": "/Users/nikitos/Projects/PharmacyProject/PharmacyProject/wwwroot/lib/jquery.min.js",
+      "PackagePath": "staticwebassets/lib/jquery.min.js"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.PharmacyProject.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.build.PharmacyProject.props",
+      "PackagePath": "build\\PharmacyProject.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildMultiTargeting.PharmacyProject.props",
+      "PackagePath": "buildMultiTargeting\\PharmacyProject.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildTransitive.PharmacyProject.props",
+      "PackagePath": "buildTransitive\\PharmacyProject.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
