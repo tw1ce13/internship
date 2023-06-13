@@ -150,7 +150,7 @@ public class HomeController : Controller
                 Price = quantity * drug.Data.Cost
             };
             _ordDrugService.Add(ordDrug);
-            return RedirectToAction("Catalog", "Home", new { selectedOption2 = pharmacyId });
+            return RedirectToAction("GetDrugs", "Home", new { selectedOption2 = pharmacyId });
         }
         return RedirectToAction("Register", "Home");
     }
@@ -162,21 +162,9 @@ public class HomeController : Controller
         var baseResponseDrug = await _drugService.GetAll(cancellationToken);
         var baseRespnseOrd = await _orderService.GetAll();
         var baseResponseOrdDrug = await _ordDrugService.GetAll();
-        var list = (from drug in baseResponseDrug.Data
-                    join ordDrug in baseResponseOrdDrug.Data on drug.Id equals ordDrug.DrugId
-                    join order in baseRespnseOrd.Data on userId equals order.PatientId
-                    select new
-                    {
-                        drug.Name,
-                        ordDrug.Count,
-                        ordDrug.Price,
-                        order.Date
-                    })
-            .GroupBy(x => x.Name)
-            .Select(g => g.FirstOrDefault())  
-            .ToList();
+        var list = await _drugService.GetDrugInOrders(baseRespnseOrd.Data, baseResponseOrdDrug.Data, (int)userId);
 
-        return View(list);
+        return View(list.Data);
     }
 }
 
