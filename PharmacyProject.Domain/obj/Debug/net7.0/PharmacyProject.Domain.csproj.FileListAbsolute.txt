@@ -1,0 +1,14 @@
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/bin/Debug/net7.0/PharmacyProject.Domain.deps.json
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/bin/Debug/net7.0/PharmacyProject.Domain.runtimeconfig.json
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/bin/Debug/net7.0/PharmacyProject.Domain.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/bin/Debug/net7.0/PharmacyProject.Domain.pdb
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/PharmacyProject.Domain.csproj.AssemblyReference.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/PharmacyProject.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/PharmacyProject.Domain.AssemblyInfoInputs.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/PharmacyProject.Domain.AssemblyInfo.cs
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/PharmacyProject.Domain.csproj.CoreCompileInputs.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/PharmacyProject.Domain.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/refint/PharmacyProject.Domain.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/PharmacyProject.Domain.pdb
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/PharmacyProject.Domain.genruntimeconfig.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.Domain/obj/Debug/net7.0/ref/PharmacyProject.Domain.dll

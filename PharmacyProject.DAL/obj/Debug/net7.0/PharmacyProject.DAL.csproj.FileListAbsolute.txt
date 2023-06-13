@@ -1,0 +1,17 @@
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/bin/Debug/net7.0/PharmacyProject.DAL.deps.json
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/bin/Debug/net7.0/PharmacyProject.DAL.runtimeconfig.json
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/bin/Debug/net7.0/PharmacyProject.DAL.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/bin/Debug/net7.0/PharmacyProject.DAL.pdb
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/bin/Debug/net7.0/PharmacyProject.Domain.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/bin/Debug/net7.0/PharmacyProject.Domain.pdb
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/PharmacyProject.DAL.csproj.AssemblyReference.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/PharmacyProject.DAL.GeneratedMSBuildEditorConfig.editorconfig
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/PharmacyProject.DAL.AssemblyInfoInputs.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/PharmacyProject.DAL.AssemblyInfo.cs
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/PharmacyProject.DAL.csproj.CoreCompileInputs.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/PharmacyProject.DAL.csproj.CopyComplete
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/PharmacyProject.DAL.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/refint/PharmacyProject.DAL.dll
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/PharmacyProject.DAL.pdb
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/PharmacyProject.DAL.genruntimeconfig.cache
+/Users/nikitos/Projects/PharmacyProject/PharmacyProject.DAL/obj/Debug/net7.0/ref/PharmacyProject.DAL.dll
