@@ -29,7 +29,9 @@
 
 
 
-    <script>$(document).ready(function () {
+    <script>
+
+        $(document).ready(function () {
             $("#selectBox").change(function () {
                 var selectedWebId = $(this).val();
                 $.ajax({
@@ -44,7 +46,9 @@
                     }
                 });
             });
-        });</script>
+});
+
+    </script>
 
 
 
