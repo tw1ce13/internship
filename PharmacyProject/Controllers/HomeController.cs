@@ -158,13 +158,17 @@ public class HomeController : Controller
     public async Task<ActionResult> ShowItemsInOrder(CancellationToken cancellationToken)
     {
         ViewBag.Flag = isRegistered;
+        
         int? userId = HttpContext.Session.GetInt32("UserId");
         var baseResponseDrug = await _drugService.GetAll(cancellationToken);
         var baseRespnseOrd = await _orderService.GetAll();
         var baseResponseOrdDrug = await _ordDrugService.GetAll();
-        var list = await _drugService.GetDrugInOrders(baseRespnseOrd.Data, baseResponseOrdDrug.Data, (int)userId);
-
-        return View(list.Data);
+        if (userId.HasValue)
+        {
+            var list = await _drugService.GetDrugInOrders(baseRespnseOrd.Data, baseResponseOrdDrug.Data, userId.Value);
+            return View(list.Data);
+        }
+        return View();
     }
 }
 
