@@ -48,6 +48,14 @@ namespace PharmacyProject.DAL.Middleware
                         Description = "Ошибка обновления"
                     };
                     break;
+                case NullReferenceException:
+                    errorResponse = new ErrorResponse
+                    {
+                        StatusCode = StatusCode.Error,
+                        Message = ex.Message,
+                        Description = "Ссылка на объект не указывает на экземпляр объекта"
+                    };
+                    break;
                 default:
                     errorResponse = new ErrorResponse
                     {
